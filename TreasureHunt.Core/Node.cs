@@ -1,5 +1,6 @@
 namespace TreasureHunt.Core
 {
+    using System;
     using System.Collections.Generic;
 
     public class Node
@@ -12,6 +13,7 @@ namespace TreasureHunt.Core
         public NodeType Type { get; set; }
         public List<Node> Nodes { get; set; }
 
-        public int? Distance { get; set; }
+        public string Name { get; set; }
+        public int Index { get; set; }
     }
 }

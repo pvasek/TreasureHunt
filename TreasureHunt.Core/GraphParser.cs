@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.IO;
     using System.Linq;
 
@@ -10,7 +11,7 @@
         private static readonly Dictionary<char, NodeType?> charNodeTypeMap = new Dictionary<char, NodeType?>
             {
                 {'s', NodeType.Start},
-                {'e', NodeType.Space},
+                {'e', NodeType.Empty},
                 {'g', NodeType.Gold},
                 {'p', NodeType.Platinium},
                 {'o', null}
@@ -30,10 +31,11 @@
             StringReader sr = new StringReader(text);
             var line = sr.ReadLine();
             var cols = -1;
+            var lineIndex = 0;
             while (line != null)
             {
                 line = line.Trim().Replace(" ", "");
-                var nodes = line.Select(CreateNode).ToList();
+                var nodes = line.Select((c, i) => CreateNode(c, i, lineIndex)).ToList();
                 if (cols != -1 && cols != nodes.Count)
                 {
                     throw new ArgumentException("There has to be the same number of columns");
@@ -41,6 +43,7 @@
                 cols = nodes.Count;
                 rows.Add(nodes);
                 line = sr.ReadLine();
+                lineIndex++;
             }
 
             var emptyRow = Enumerable
@@ -82,20 +85,27 @@
                 }
             }
 
-            return rows
+            var result = rows
                 .SelectMany(i => i)
                 .Where(i => i != null)
                 .ToList();
+
+            var index = 0;
+            foreach (var node in result)
+            {
+                node.Index = index++;
+            }
+            return result;
         }
 
-        public static Node CreateNode(char character)
+        public static Node CreateNode(char character, int col, int row)
         {
             NodeType? nodeType;
             if (!charNodeTypeMap.TryGetValue(character, out nodeType))
             {
                 throw new ArgumentException(string.Format("Character '{0}' is not allowed'", character));
             }
-            return nodeType == null ? null : new Node { Type = nodeType.Value };
+            return nodeType == null ? null : new Node { Type = nodeType.Value, Name = String.Format("{0} {1}", col, row) };
         }
     }
 }

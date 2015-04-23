@@ -3,7 +3,7 @@ namespace TreasureHunt.Core
     public enum NodeType
     {
         Start,
-        Space,
+        Empty,
         Gold,
         Platinium
     }

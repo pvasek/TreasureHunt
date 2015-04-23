@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GraphParser.cs" />
+    <Compile Include="GraphSolver.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -38,6 +38,11 @@
             Assert.AreEqual(result[2], middleNodes[5]);
             Assert.AreEqual(result[5], middleNodes[6]);
             Assert.AreEqual(result[8], middleNodes[7]);
+
+            Assert.AreEqual(NodeType.Gold, result[1].Type);
+            Assert.AreEqual(NodeType.Start, result[3].Type);
+            Assert.AreEqual(NodeType.Empty, result[0].Type);
+            Assert.AreEqual(NodeType.Platinium, result[8].Type);
         }
 
         [Test]
@@ -50,6 +55,7 @@
             var result = GraphParser.FromText(input);
             Assert.AreEqual(7, result.Count);
             Assert.AreEqual(1, result[5].Nodes.Count);
+            Assert.AreEqual(1, result[6].Nodes.Count);
         }
     }
 }
