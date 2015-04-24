@@ -6,23 +6,19 @@
 
     public class GraphSolver
     {
-        private static void DistanceWalk(Node from, Node to, int[] distances)
+        private static void DistanceWalk(Node node, int[] distances)
         {
-            var distance = distances[to.Index] + 1;
-            foreach (var node in to.Nodes)
+            var distance = distances[node.Index] + 1;
+            foreach (var connectedNode in node.Nodes)
             {
-                var nodeDistance = distances[node.Index];
+                var nodeDistance = distances[connectedNode.Index];
                 if (nodeDistance <= distance)
                 {
                     continue;                    
                 }
-                distances[node.Index] = distance;
+                distances[connectedNode.Index] = distance;
 
-                DistanceWalk(from, node, distances);
-                if (node == from)
-                {
-                    break;
-                }
+                DistanceWalk(connectedNode, distances);
             }
         }
 
@@ -31,7 +27,7 @@
             var distances = Enumerable.Repeat(NullDistance, nodes.Count).ToArray();
             distances.Initialize();
             distances[to.Index] = 0;
-            DistanceWalk(from, to, distances);
+            DistanceWalk(to, distances);
             return distances[from.Index];
         }
 
